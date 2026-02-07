@@ -97,12 +97,8 @@ export default function GuestLayout({ children, title, lang: propLang, setLang: 
                     <div className="flex justify-between items-center h-20">
                         {/* Logo */}
                         <div className="flex-shrink-0 flex items-center">
-                            <Link href="/" className="text-2xl font-bold font-display tracking-tight text-slate-900 hover:text-brand-600 transition-colors flex items-center gap-2">
-                                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center text-white text-lg shadow-lg shadow-brand-500/30">
-                                    P
-                                </div>
-                                <span className="hidden sm:block">Personal Space</span>
-                                <span className="sm:hidden">PS</span>
+                            <Link href="/" className="font-aesthetic text-slate-900 hover:text-primary-600 transition-colors duration-300">
+                                <span className="text-2xl sm:text-3xl leading-none pt-1">Muhammad Arif</span>
                             </Link>
                         </div>
 
@@ -202,9 +198,8 @@ export default function GuestLayout({ children, title, lang: propLang, setLang: 
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
                         <div className="md:col-span-5 space-y-6">
-                            <Link href="/" className="flex items-center gap-2">
-                                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center text-white text-lg shadow-sm">P</div>
-                                <span className="text-xl font-bold font-display tracking-tight text-slate-900">Personal Space</span>
+                            <Link href="/" className="font-aesthetic text-slate-900 hover:text-primary-600 transition-colors duration-300">
+                                <span className="text-xl sm:text-2xl leading-none pt-1">Muhammad Arif</span>
                             </Link>
                             <p className="text-slate-500 leading-relaxed max-w-sm">
                                 {t.footer.description}

@@ -53,6 +53,10 @@
         font-family: var(--font-display);
     }
 
+    .font-aesthetic {
+        font-family: 'Allura', cursive;
+    }
+
     .hide-scrollbar::-webkit-scrollbar {
         display: none;
     }
