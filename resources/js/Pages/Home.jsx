@@ -509,7 +509,7 @@ export default function Home({ featuredProjects, latestNewsletters, events, achi
                             )}
 
                             <div className="grid gap-8">
-                                {featuredProjects.slice(1, 5).map((project) => (
+                                {featuredProjects.slice(1).map((project) => (
                                     <Link key={project.id} href={`/portfolio/${project.slug}`} className="group">
                                         <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all border-2 border-transparent hover:border-primary-500 flex flex-col sm:flex-row h-full">
                                             <div className="sm:w-48 aspect-video sm:aspect-square bg-secondary-100 overflow-hidden flex-shrink-0">
@@ -609,7 +609,7 @@ export default function Home({ featuredProjects, latestNewsletters, events, achi
                             )}
 
                             <div className="grid gap-8">
-                                {latestNewsletters.slice(1, 5).map((article) => (
+                                {latestNewsletters.slice(1).map((article) => (
                                     <Link key={article.id} href={`/blog/${article.slug}`} className="group">
                                         <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all border-2 border-transparent hover:border-primary-500 flex flex-col sm:flex-row h-full">
                                             <div className="sm:w-48 aspect-video sm:aspect-square bg-secondary-100 overflow-hidden flex-shrink-0">
@@ -784,7 +784,7 @@ export default function Home({ featuredProjects, latestNewsletters, events, achi
                             )}
 
                             <div className="grid gap-8">
-                                {events.slice(1, 5).map((event) => (
+                                {events.slice(1).map((event) => (
                                     <div key={event.id} className="group">
                                         <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all border-2 border-transparent hover:border-primary-500 flex flex-col sm:flex-row h-full">
                                             <div className="sm:w-48 aspect-video sm:aspect-square bg-secondary-100 overflow-hidden flex-shrink-0 relative">

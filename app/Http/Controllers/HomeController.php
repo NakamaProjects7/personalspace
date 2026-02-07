@@ -15,19 +15,19 @@ class HomeController extends Controller
         // Fetch featured projects
         $featuredProjects = Project::where('featured', true)
             ->orderBy('created_at', 'desc')
-            ->limit(3)
+            ->limit(10)
             ->get();
         
-        // If no featured projects, take latest 3
+        // If no featured projects, take latest 10
         if ($featuredProjects->isEmpty()) {
-            $featuredProjects = Project::latest()->take(3)->get();
+            $featuredProjects = Project::latest()->take(10)->get();
         }
 
         // Fetch latest newsletters
-        $latestNewsletters = Newsletter::latest()->take(3)->get();
+        $latestNewsletters = Newsletter::latest()->take(10)->get();
 
         // Fetch upcoming events (show all for now, including past events)
-        $events = Event::orderBy('date', 'desc')->take(7)->get();
+        $events = Event::orderBy('date', 'desc')->take(10)->get();
 
         // Fetch achievements (Dynamic)
         $achievements = \App\Models\Achievement::orderBy('order_sequence')->get();
