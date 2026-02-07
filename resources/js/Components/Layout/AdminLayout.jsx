@@ -10,6 +10,7 @@ export default function AdminLayout({ children, title }) {
         { name: 'Newsletters', href: route('admin.newsletters.index'), icon: 'NewspaperIcon' },
         { name: 'Events', href: route('admin.events.index'), icon: 'CalendarIcon' },
         { name: 'Projects', href: route('admin.projects.index'), icon: 'BriefcaseIcon' },
+        { name: 'Achievements', href: route('admin.achievements.index'), icon: 'AcademicCapIcon' },
     ];
 
     return (
