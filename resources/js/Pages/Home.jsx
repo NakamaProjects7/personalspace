@@ -404,29 +404,32 @@ export default function Home({ featuredProjects, latestNewsletters, events, achi
                         </p>
                     </div>
 
-                    <div className="relative max-w-7xl mx-auto px-4">
+                    <div className="relative">
                         {(!achievements || achievements.length === 0) ? (
-                            <div className="text-center text-secondary-500 py-12 bg-white rounded-2xl border border-secondary-100 border-dashed">
+                            <div className="text-center text-secondary-500 py-12 bg-white rounded-2xl border border-secondary-100 border-dashed max-w-7xl mx-auto px-4">
                                 <p>{t.achievements.empty}</p>
                             </div>
                         ) : (
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+                            <div className="relative overflow-x-auto pb-16 pt-12 hide-scrollbar snap-x flex px-4 md:px-8 gap-8">
+                                {/* Decorator Line */}
+                                <div className="absolute top-8 left-0 right-0 h-1 bg-gradient-to-r from-secondary-200 via-primary-200 to-secondary-200 w-[200%] md:w-full z-0 opacity-50"></div>
+
                                 {achievements.map((item, index) => {
                                     const imgSrc = getImageSource(item.image);
                                     return (
-                                        <div key={item.id} className="group relative">
+                                        <div key={item.id} className="relative z-10 flex-shrink-0 w-[85vw] md:w-[450px] snap-center group pt-8">
                                             {/* Luxurious Card Effect */}
-                                            <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 to-secondary-500/5 rounded-3xl transform rotate-1 group-hover:rotate-2 transition-transform duration-500"></div>
-                                            <div className="absolute inset-0 bg-white rounded-3xl shadow-sm border border-secondary-100 group-hover:shadow-2xl group-hover:border-primary-200 transition-all duration-500"></div>
+                                            <div className="absolute inset-0 top-8 bg-gradient-to-br from-primary-500/5 to-secondary-500/5 rounded-3xl transform rotate-1 group-hover:rotate-2 transition-transform duration-500"></div>
+                                            <div className="absolute inset-0 top-8 bg-white rounded-3xl shadow-sm border border-secondary-100 group-hover:shadow-2xl group-hover:border-primary-200 transition-all duration-500"></div>
 
-                                            <div className="relative p-8 flex flex-col items-center text-center h-full">
+                                            <div className="relative p-8 flex flex-col items-center text-center h-full mt-8">
                                                 {/* Year Badge - Floating 'Mewah' Style */}
-                                                <div className="absolute -top-4 bg-gradient-to-r from-secondary-900 to-primary-900 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg tracking-widest border border-white/20">
+                                                <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-secondary-900 to-primary-900 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg tracking-widest border-4 border-white z-20">
                                                     {item.year}
                                                 </div>
 
                                                 {/* Image - Luxurious Size */}
-                                                <div className="mt-8 mb-6 relative">
+                                                <div className="mt-4 mb-6 relative">
                                                     <div className="absolute inset-0 bg-primary-200 rounded-full blur-xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
                                                     <div className={`w-32 h-32 ${item.mood_color || 'bg-white'} rounded-full p-2 border-4 border-white shadow-xl flex items-center justify-center text-5xl relative z-10 group-hover:scale-105 transition-transform duration-500`}>
                                                         {imgSrc ? (
@@ -449,6 +452,14 @@ export default function Home({ featuredProjects, latestNewsletters, events, achi
                                         </div>
                                     );
                                 })}
+                            </div>
+                        )}
+                        {achievements && achievements.length > 2 && (
+                            <div className="hidden md:flex justify-end pr-8 max-w-7xl mx-auto text-xs text-secondary-400 gap-2 items-center">
+                                <span>{t.achievements.scroll}</span>
+                                <svg className="w-4 h-4 animate-bounce-x" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
                             </div>
                         )}
                     </div>
