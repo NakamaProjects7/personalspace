@@ -52,6 +52,15 @@
     .font-display {
         font-family: var(--font-display);
     }
+
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
 }
 
 /* Minimalist Typewriter Loader */
@@ -109,4 +118,57 @@
     50% {
         border-color: #f9bf05;
     }
+}
+
+/* 3D Scroll Styles */
+.perspective-container {
+    perspective: 1000px;
+}
+
+.card-3d {
+    transition: transform 0.3s ease-out, filter 0.3s ease-out;
+    transform-style: preserve-3d;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.delay-100 {
+    animation-delay: 100ms;
+}
+
+.delay-200 {
+    animation-delay: 200ms;
+}
+
+.delay-300 {
+    animation-delay: 300ms;
 }

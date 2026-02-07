@@ -5,12 +5,14 @@ const translations = {
     en: {
         nav: {
             home: 'Home',
-            about: 'About',
+            about: 'Profile',
             portfolio: 'Portfolio',
             blog: 'Blog',
             events: 'Events',
             contact: 'Contact',
-            signin: 'Sign In'
+            signin: 'Sign In',
+            personal: 'Personal',
+            professional: 'Professional'
         },
         footer: {
             explore: 'Explore',
@@ -30,12 +32,14 @@ const translations = {
     id: {
         nav: {
             home: 'Beranda',
-            about: 'Tentang',
+            about: 'Profil',
             portfolio: 'Portofolio',
             blog: 'Blog',
             events: 'Acara',
             contact: 'Kontak',
-            signin: 'Masuk'
+            signin: 'Masuk',
+            personal: 'Personal',
+            professional: 'Profesional'
         },
         footer: {
             explore: 'Jelajahi',
@@ -105,7 +109,10 @@ export default function GuestLayout({ children, title, lang: propLang, setLang: 
                         {/* Desktop Navigation */}
                         <nav className="hidden md:flex space-x-1">
                             <NavLink href="/" active={route().current('home')}>{t.nav.home}</NavLink>
-                            <NavLink href="/about" active={route().current('about')}>{t.nav.about}</NavLink>
+                            <NavDropdown title={t.nav.about} active={route().current('about')} items={[
+                                { label: t.nav.personal, href: '/about?tab=personal' },
+                                { label: t.nav.professional, href: '/about?tab=professional' }
+                            ]} />
                             <NavLink href="/portfolio" active={route().current('portfolio.index')}>{t.nav.portfolio}</NavLink>
                             <NavLink href="/blog" active={route().current('blog.index')}>{t.nav.blog}</NavLink>
                             <NavLink href="/events" active={route().current('events.index')}>{t.nav.events}</NavLink>
@@ -168,7 +175,10 @@ export default function GuestLayout({ children, title, lang: propLang, setLang: 
                 <div className={`md:hidden absolute w-full bg-white/95 backdrop-blur-xl border-b border-gray-100 transition-all duration-300 ease-in-out ${isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'}`}>
                     <div className="px-4 py-6 space-y-2">
                         <MobileNavLink href="/">{t.nav.home}</MobileNavLink>
-                        <MobileNavLink href="/about">{t.nav.about}</MobileNavLink>
+                        <div className="pl-4 border-l-2 border-gray-100 ml-4 space-y-2">
+                            <MobileNavLink href="/about?tab=personal">{t.nav.personal}</MobileNavLink>
+                            <MobileNavLink href="/about?tab=professional">{t.nav.professional}</MobileNavLink>
+                        </div>
                         <MobileNavLink href="/portfolio">{t.nav.portfolio}</MobileNavLink>
                         <MobileNavLink href="/blog">{t.nav.blog}</MobileNavLink>
                         <MobileNavLink href="/events">{t.nav.events}</MobileNavLink>
@@ -255,6 +265,7 @@ export default function GuestLayout({ children, title, lang: propLang, setLang: 
     );
 }
 
+
 function NavLink({ href, active, children }) {
     const classes = active
         ? "text-brand-600 px-4 py-2 text-sm font-semibold rounded-lg bg-brand-50"
@@ -267,6 +278,41 @@ function NavLink({ href, active, children }) {
     );
 }
 
+function NavDropdown({ title, active, items }) {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+        <div
+            className="relative"
+            onMouseEnter={() => setIsOpen(true)}
+            onMouseLeave={() => setIsOpen(false)}
+        >
+            <button
+                className={`flex items-center gap-1 ${active ? "text-brand-600 bg-brand-50 font-semibold" : "text-slate-600 hover:text-brand-600 hover:bg-gray-50 font-medium"} px-4 py-2 text-sm rounded-lg transition-all`}
+            >
+                {title}
+                <svg className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+
+            {isOpen && (
+                <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 animate-fade-in-up">
+                    {items.map((item, idx) => (
+                        <Link
+                            key={idx}
+                            href={item.href}
+                            className="block px-4 py-2 text-sm text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition-colors"
+                        >
+                            {item.label}
+                        </Link>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+}
+
 function MobileNavLink({ href, children }) {
     return (
         <Link href={href} className="block px-4 py-3 rounded-xl text-base font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition-colors">
@@ -274,3 +320,4 @@ function MobileNavLink({ href, children }) {
         </Link>
     );
 }
+

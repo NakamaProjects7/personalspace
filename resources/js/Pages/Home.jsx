@@ -179,8 +179,50 @@ const translations = {
 };
 
 export default function Home({ featuredProjects, latestNewsletters, events, achievements, flash }) {
-    const [lang, setLang] = useState('en');
+    const [lang, setLang] = useState('id'); // Default to Indonesian
     const t = translations[lang];
+
+    // 3D Scroll Refs
+    const scrollContainerRef = React.useRef(null);
+    const cardsRef = React.useRef([]);
+
+    // 3D Scroll Effect Logic
+    useEffect(() => {
+        const container = scrollContainerRef.current;
+        if (!container || !achievements || achievements.length === 0) return;
+
+        const handleScroll = () => {
+            const containerCenter = container.getBoundingClientRect().left + container.offsetWidth / 2;
+
+            cardsRef.current.forEach((card) => {
+                if (!card) return;
+
+                const cardRect = card.getBoundingClientRect();
+                const cardCenter = cardRect.left + cardRect.width / 2;
+                const distance = Math.abs(containerCenter - cardCenter);
+                const maxDistance = container.offsetWidth / 2;
+
+                // Calculate scale and opacity based on distance from center
+                let scale = 1 - (distance / maxDistance) * 0.4; // Scale down to 0.6 at edges
+                scale = Math.max(0.85, Math.min(1.1, scale)); // Clamp scale
+
+                const opacity = 1 - (distance / maxDistance) * 0.5;
+                const blur = (distance / maxDistance) * 4; // Add slight blur at edges
+
+                // Apply transforms
+                card.style.transform = `scale(${scale}) perspective(1000px) rotateY(${(cardCenter - containerCenter) / 50}deg)`;
+                card.style.opacity = Math.max(0.5, opacity);
+                card.style.filter = `blur(${Math.min(2, blur)}px)`;
+                card.style.zIndex = scale > 1 ? 10 : 1; // Bring center item to front
+            });
+        };
+
+        container.addEventListener('scroll', handleScroll, { passive: true });
+        // Initial calculation
+        handleScroll();
+
+        return () => container.removeEventListener('scroll', handleScroll);
+    }, [achievements]);
 
     const roles = t.hero.roles;
     const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
@@ -406,16 +448,24 @@ export default function Home({ featuredProjects, latestNewsletters, events, achi
                                 <p>{t.achievements.empty}</p>
                             </div>
                         ) : (
-                            <div className="relative overflow-x-auto pb-16 pt-12 hide-scrollbar snap-x flex px-4 md:px-8 gap-8">
+                            <div
+                                ref={scrollContainerRef}
+                                className="relative overflow-x-auto pb-16 pt-12 hide-scrollbar flex px-4 md:px-[30vw] gap-4 perspective-container snap-x snap-mandatory"
+                                style={{ scrollBehavior: 'smooth' }}
+                            >
                                 {/* Decorator Line */}
                                 <div className="absolute top-8 left-0 right-0 h-1 bg-gradient-to-r from-secondary-200 via-primary-200 to-secondary-200 w-[200%] md:w-full z-0 opacity-50"></div>
 
                                 {achievements.map((item, index) => {
                                     const imgSrc = getImageSource(item.image);
                                     return (
-                                        <div key={item.id} className="relative z-10 flex-shrink-0 w-[85vw] md:w-[450px] snap-center group pt-8">
+                                        <div
+                                            key={item.id}
+                                            ref={el => cardsRef.current[index] = el}
+                                            className="relative z-10 flex-shrink-0 w-[85vw] md:w-[450px] snap-center group pt-8 transition-all duration-300 ease-out will-change-transform"
+                                        >
                                             {/* Luxurious Card Effect */}
-                                            <div className="absolute inset-0 top-8 bg-gradient-to-br from-primary-500/5 to-secondary-500/5 rounded-3xl transform rotate-1 group-hover:rotate-2 transition-transform duration-500"></div>
+                                            <div className="absolute inset-0 top-8 bg-gradient-to-br from-primary-500/5 to-secondary-500/5 rounded-3xl"></div>
                                             <div className="absolute inset-0 top-8 bg-white rounded-3xl shadow-sm border border-secondary-100 group-hover:shadow-2xl group-hover:border-primary-200 transition-all duration-500"></div>
 
                                             <div className="relative p-8 flex flex-col items-center text-center h-full mt-8">

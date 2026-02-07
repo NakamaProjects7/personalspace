@@ -29,7 +29,12 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/about', function () {
-    return Inertia::render('About');
+    $timelines = \App\Models\Timeline::orderBy('sort_order')->orderBy('year')->get();
+    $projects = \App\Models\Project::orderBy('created_at', 'desc')->take(6)->get(); // Fetch latest 6 projects
+    return Inertia::render('About', [
+        'timelines' => $timelines,
+        'projects' => $projects
+    ]);
 })->name('about');
 
 Route::get('/portfolio', function () {
@@ -113,6 +118,10 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     // Contacts / Messages
     Route::get('/contacts', [App\Http\Controllers\AdminContactController::class, 'index'])->name('contacts.index');
     Route::get('/contacts/{id}', [App\Http\Controllers\AdminContactController::class, 'show'])->name('contacts.show');
+
+    // Timelines
+    Route::resource('timelines', \App\Http\Controllers\Admin\TimelineController::class);
+    
     Route::post('/contacts/{id}/reply', [App\Http\Controllers\AdminContactController::class, 'reply'])->name('contacts.reply');
     Route::delete('/contacts/{id}', [App\Http\Controllers\AdminContactController::class, 'destroy'])->name('contacts.destroy');
 });

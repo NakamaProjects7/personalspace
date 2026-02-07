@@ -11,6 +11,7 @@ export default function AdminLayout({ children, title }) {
         { name: 'Events', href: route('admin.events.index'), icon: 'CalendarIcon' },
         { name: 'Projects', href: route('admin.projects.index'), icon: 'BriefcaseIcon' },
         { name: 'Achievements', href: route('admin.achievements.index'), icon: 'AcademicCapIcon' },
+        { name: 'Timelines', href: route('admin.timelines.index'), icon: 'ClockIcon' },
         { name: 'Messages', href: route('admin.contacts.index'), icon: 'EnvelopeIcon' },
     ];
 
