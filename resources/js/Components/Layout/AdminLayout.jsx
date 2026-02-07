@@ -11,6 +11,7 @@ export default function AdminLayout({ children, title }) {
         { name: 'Events', href: route('admin.events.index'), icon: 'CalendarIcon' },
         { name: 'Projects', href: route('admin.projects.index'), icon: 'BriefcaseIcon' },
         { name: 'Achievements', href: route('admin.achievements.index'), icon: 'AcademicCapIcon' },
+        { name: 'Messages', href: route('admin.contacts.index'), icon: 'EnvelopeIcon' },
     ];
 
     return (
@@ -28,7 +29,7 @@ export default function AdminLayout({ children, title }) {
                     </button>
                 </div>
 
-                <nav className="p-4 space-y-1">
+                <nav className="p-4 space-y-1 flex-1 overflow-y-auto">
                     {navigation.map((item) => (
                         <Link
                             key={item.name}
@@ -44,8 +45,8 @@ export default function AdminLayout({ children, title }) {
                     ))}
                 </nav>
 
-                <div className="absolute bottom-0 w-full p-4 border-t border-gray-100">
-                    <div className="flex items-center gap-3">
+                <div className="p-4 border-t border-gray-100">
+                    <div className="flex items-center gap-3 mb-4">
                         <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold">
                             {auth.user?.name?.charAt(0) || 'A'}
                         </div>
@@ -54,6 +55,18 @@ export default function AdminLayout({ children, title }) {
                             <p className="text-xs text-gray-500 truncate">{auth.user?.email || ''}</p>
                         </div>
                     </div>
+
+                    <Link
+                        href={route('logout')}
+                        method="post"
+                        as="button"
+                        className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
+                    >
+                        <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        Sign Out
+                    </Link>
                 </div>
             </aside>
 

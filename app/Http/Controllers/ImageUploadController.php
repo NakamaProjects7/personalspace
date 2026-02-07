@@ -11,7 +11,7 @@ class ImageUploadController extends Controller
     public function upload(Request $request)
     {
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120', // 5MB max
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp,svg,bmp,tiff|max:10240', // 10MB max
         ]);
 
         if ($request->hasFile('image')) {
@@ -38,7 +38,7 @@ class ImageUploadController extends Controller
     {
         // Dedicated endpoint for TinyMCE image uploads
         $request->validate([
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif,webp,svg,bmp,tiff|max:10240',
         ]);
 
         if ($request->hasFile('file')) {

@@ -49,7 +49,7 @@ class AdminController extends Controller
             'image' => 'nullable|string',
         ]);
 
-        Newsletter::create([
+        $newsletter = Newsletter::create([
             'title' => $validated['title'],
             'content' => $validated['content'],
             'excerpt' => Str::limit(strip_tags($validated['content']), 150),
@@ -57,6 +57,12 @@ class AdminController extends Controller
             'image' => $request->image,
             'published_at' => now(),
         ]);
+
+        // Send notification to all subscribers
+        $subscribers = \App\Models\Subscriber::all();
+        foreach ($subscribers as $subscriber) {
+            \Illuminate\Support\Facades\Mail::to($subscriber->email)->queue(new \App\Mail\NewPostNotification($newsletter, $subscriber));
+        }
 
         return redirect()->route('admin.newsletters.index')->with('success', 'Newsletter published!');
     }

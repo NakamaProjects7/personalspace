@@ -109,6 +109,12 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     Route::get('/achievements/{id}/edit', [AdminController::class, 'achievementsEdit'])->name('achievements.edit');
     Route::put('/achievements/{id}', [AdminController::class, 'achievementsUpdate'])->name('achievements.update');
     Route::delete('/achievements/{id}', [AdminController::class, 'achievementsDestroy'])->name('achievements.destroy');
+
+    // Contacts / Messages
+    Route::get('/contacts', [App\Http\Controllers\AdminContactController::class, 'index'])->name('contacts.index');
+    Route::get('/contacts/{id}', [App\Http\Controllers\AdminContactController::class, 'show'])->name('contacts.show');
+    Route::post('/contacts/{id}/reply', [App\Http\Controllers\AdminContactController::class, 'reply'])->name('contacts.reply');
+    Route::delete('/contacts/{id}', [App\Http\Controllers\AdminContactController::class, 'destroy'])->name('contacts.destroy');
 });
 
 

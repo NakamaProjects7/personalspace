@@ -4,6 +4,24 @@ import GuestLayout from '@/Components/Layout/GuestLayout';
 import Card from '@/Components/UI/Card';
 
 export default function BlogShow({ newsletter, relatedNewsletters }) {
+    // Helper to process content and add paragraph spacing
+    const processContent = (content) => {
+        if (!content) return '';
+
+        // If content already has paragraphs, just return it (TinyMCE output)
+        if (content.includes('<p>')) {
+            return content;
+        }
+
+        // If content is plain text or uses <br>, wrap lines in <p> labels with margin
+        // Split by newlines or <br> tags
+        return content
+            .split(/\r\n|\n|<br\s*\/?>/gi)
+            .filter(line => line.trim().length > 0)
+            .map(line => `<p class="mb-4">${line.trim()}</p>`)
+            .join('');
+    };
+
     return (
         <GuestLayout>
             <Head title={newsletter.title} />
@@ -59,12 +77,12 @@ export default function BlogShow({ newsletter, relatedNewsletters }) {
                     className="prose prose-lg prose-slate max-w-none 
                                prose-headings:font-display prose-headings:font-bold
                                prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl
-                               prose-p:text-slate-600 prose-p:leading-relaxed
+                               prose-p:text-slate-600 prose-p:leading-relaxed prose-p:mb-6
                                prose-a:text-brand-600 prose-a:no-underline hover:prose-a:underline
                                prose-img:rounded-xl prose-img:shadow-lg
                                prose-code:bg-slate-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
                                prose-pre:bg-slate-900 prose-pre:text-slate-50"
-                    dangerouslySetInnerHTML={{ __html: newsletter.content }}
+                    dangerouslySetInnerHTML={{ __html: processContent(newsletter.content) }}
                 />
 
                 {/* Share Section */}
