@@ -1,0 +1,55 @@
+/* Main Design Tokens */
+:root {
+    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-display: 'Space Grotesk', system-ui, sans-serif;
+}
+
+@import "tailwindcss";
+
+@theme {
+    /* Custom 3-Color Palette: White, Yellow, Dark Green */
+    /* Yellow (#f9bf05) - Primary/Accent */
+    --color-primary-50: #fffef0;
+    --color-primary-100: #fffbd9;
+    --color-primary-200: #fff7b3;
+    --color-primary-300: #fff18c;
+    --color-primary-400: #ffea66;
+    --color-primary-500: #f9bf05;
+    --color-primary-600: #d9a404;
+    --color-primary-700: #b38803;
+    --color-primary-800: #8c6c02;
+    --color-primary-900: #665001;
+
+    /* Dark Green (#00522a) - Secondary/Text */
+    --color-secondary-50: #e6f2ec;
+    --color-secondary-100: #cce5d9;
+    --color-secondary-200: #99cbb3;
+    --color-secondary-300: #66b18c;
+    --color-secondary-400: #339766;
+    --color-secondary-500: #00522a;
+    --color-secondary-600: #004222;
+    --color-secondary-700: #00331a;
+    --color-secondary-800: #002311;
+    --color-secondary-900: #001409;
+
+    /* Brand aliases for backward compatibility */
+    --color-brand-50: #fffef0;
+    --color-brand-100: #fffbd9;
+    --color-brand-200: #fff7b3;
+    --color-brand-300: #fff18c;
+    --color-brand-400: #ffea66;
+    --color-brand-500: #f9bf05;
+    --color-brand-600: #d9a404;
+    --color-brand-700: #b38803;
+    --color-brand-800: #8c6c02;
+    --color-brand-900: #665001;
+
+    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-display: 'Space Grotesk', system-ui, sans-serif;
+}
+
+@layer utilities {
+    .font-display {
+        font-family: var(--font-display);
+    }
+}
