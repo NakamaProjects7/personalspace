@@ -1,43 +1,33 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Head, useForm } from '@inertiajs/react';
 import GuestLayout from '@/Components/Layout/GuestLayout';
-import TurnstileWidget from '@/Components/TurnstileWidget';
 
 export default function Contact({ flash }) {
-    const [turnstileToken, setTurnstileToken] = useState('');
-    const [subscribeTurnstileToken, setSubscribeTurnstileToken] = useState('');
-
     const { data, setData, post, processing, errors } = useForm({
         name: '',
         email: '',
         subject: '',
         message: '',
-        'cf-turnstile-response': '',
     });
 
     const { data: subscribeData, setData: setSubscribeData, post: postSubscribe, processing: processingSubscribe, errors: subscribeErrors } = useForm({
         email: '',
-        'cf-turnstile-response': '',
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setData('cf-turnstile-response', turnstileToken);
         post('/contact', {
             onSuccess: () => {
-                setData({ name: '', email: '', subject: '', message: '', 'cf-turnstile-response': '' });
-                setTurnstileToken('');
+                setData({ name: '', email: '', subject: '', message: '' });
             }
         });
     };
 
     const handleSubscribe = (e) => {
         e.preventDefault();
-        setSubscribeData('cf-turnstile-response', subscribeTurnstileToken);
         postSubscribe('/subscribe', {
             onSuccess: () => {
-                setSubscribeData({ email: '', 'cf-turnstile-response': '' });
-                setSubscribeTurnstileToken('');
+                setSubscribeData({ email: '' });
             }
         });
     };
@@ -159,14 +149,9 @@ export default function Contact({ flash }) {
                                         {errors.message && <p className="mt-1 text-sm text-red-600">{errors.message}</p>}
                                     </div>
 
-                                    {/* Cloudflare Turnstile */}
-                                    <div className="flex justify-center">
-                                        <TurnstileWidget onVerify={setTurnstileToken} />
-                                    </div>
-
                                     <button
                                         type="submit"
-                                        disabled={processing || !turnstileToken}
+                                        disabled={processing}
                                         className="w-full px-8 py-4 bg-gradient-to-r from-brand-600 to-green-600 text-white rounded-xl font-bold hover:shadow-xl transition-all hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         {processing ? 'Sending...' : 'Send Message 📨'}
@@ -229,13 +214,9 @@ export default function Contact({ flash }) {
                                     />
                                     {subscribeErrors.email && <p className="text-sm text-red-400">{subscribeErrors.email}</p>}
 
-                                    <div className="flex justify-center">
-                                        <TurnstileWidget onVerify={setSubscribeTurnstileToken} />
-                                    </div>
-
                                     <button
                                         type="submit"
-                                        disabled={processingSubscribe || !subscribeTurnstileToken}
+                                        disabled={processingSubscribe}
                                         className="w-full px-6 py-3 bg-white text-slate-900 rounded-lg font-bold hover:bg-brand-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         {processingSubscribe ? 'Subscribing...' : 'Subscribe'}

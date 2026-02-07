@@ -24,13 +24,6 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate Cloudflare Turnstile
-        $turnstileResponse = $request->input('cf-turnstile-response');
-        
-        if (!$this->verifyTurnstile($turnstileResponse)) {
-            return back()->with('error', 'Captcha verification failed. Please try again.');
-        }
-
         // Validate form data
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
@@ -59,36 +52,5 @@ class ContactController extends Controller
         }
 
         return back()->with('success', 'Your message has been sent successfully! We\'ll get back to you soon.');
-    }
-
-    /**
-     * Verify Cloudflare Turnstile response
-     */
-    private function verifyTurnstile($token)
-    {
-        $secretKey = config('services.turnstile.secret_key'); // Matches config/services.php
-
-        if (!$token) {
-            return false;
-        }
-
-        $response = Http::asForm()->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
-            'secret' => $secretKey,
-            'response' => $token,
-            'remoteip' => request()->ip(),
-        ]);
-
-        $result = $response->json();
-
-        if (!($result['success'] ?? false)) {
-            \Log::error('Turnstile Verification Failed', [
-                'success' => $result['success'] ?? false,
-                'error-codes' => $result['error-codes'] ?? [],
-                'hostname' => $result['hostname'] ?? 'unknown'
-            ]);
-            return false;
-        }
-
-        return true;
     }
 }

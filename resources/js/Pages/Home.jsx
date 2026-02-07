@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
 import GuestLayout from '@/Components/Layout/GuestLayout';
-import TurnstileWidget from '@/Components/TurnstileWidget';
+
 
 const translations = {
     en: {
@@ -202,19 +202,15 @@ export default function Home({ featuredProjects, latestNewsletters, events, achi
     // but here lengths are same so it's fine.
 
     // Newsletter subscription state
-    const [subscribeTurnstileToken, setSubscribeTurnstileToken] = useState('');
     const { data: subscribeData, setData: setSubscribeData, post: postSubscribe, processing: processingSubscribe, errors: subscribeErrors } = useForm({
         email: '',
-        'cf-turnstile-response': '',
     });
 
     const handleSubscribe = (e) => {
         e.preventDefault();
-        setSubscribeData('cf-turnstile-response', subscribeTurnstileToken);
         postSubscribe('/subscribe', {
             onSuccess: () => {
-                setSubscribeData({ email: '', 'cf-turnstile-response': '' });
-                setSubscribeTurnstileToken('');
+                setSubscribeData({ email: '' });
             }
         });
     };
@@ -712,13 +708,9 @@ export default function Home({ featuredProjects, latestNewsletters, events, achi
                                     {subscribeErrors.email && <p className="mt-2 text-sm text-red-600 font-semibold">{subscribeErrors.email}</p>}
                                 </div>
 
-                                <div className="flex justify-center">
-                                    <TurnstileWidget onVerify={setSubscribeTurnstileToken} />
-                                </div>
-
                                 <button
                                     type="submit"
-                                    disabled={processingSubscribe || !subscribeTurnstileToken}
+                                    disabled={processingSubscribe}
                                     className="w-full px-8 py-4 bg-primary-500 text-white rounded-xl font-bold text-lg hover:bg-primary-600 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                                 >
                                     {processingSubscribe ? t.newsletter.button_submitting : t.newsletter.button_default}
