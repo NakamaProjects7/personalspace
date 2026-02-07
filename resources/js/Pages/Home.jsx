@@ -223,6 +223,7 @@ export default function Home({ featuredProjects, latestNewsletters, events, achi
     const getImageSource = (image) => {
         if (!image) return null;
         if (image.startsWith('http') || image.startsWith('data:')) return image;
+        if (image.startsWith('/storage/') || image.startsWith('storage/')) return image.startsWith('/') ? image : `/${image}`;
         if (image.match(/\.(jpeg|jpg|gif|png|webp)$/) != null) return `/storage/${image}`;
         return null;
     };
@@ -403,50 +404,51 @@ export default function Home({ featuredProjects, latestNewsletters, events, achi
                         </p>
                     </div>
 
-                    <div className="relative">
+                    <div className="relative max-w-7xl mx-auto px-4">
                         {(!achievements || achievements.length === 0) ? (
                             <div className="text-center text-secondary-500 py-12 bg-white rounded-2xl border border-secondary-100 border-dashed">
                                 <p>{t.achievements.empty}</p>
                             </div>
                         ) : (
-                            <div className="relative overflow-x-auto pb-12 pt-12 hide-scrollbar snap-x flex gap-8">
-                                <div className="absolute top-2 left-0 right-0 h-1 bg-secondary-200 w-[200%] md:w-full z-0"></div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
                                 {achievements.map((item, index) => {
                                     const imgSrc = getImageSource(item.image);
                                     return (
-                                        <div key={item.id} className="relative z-10 flex-shrink-0 w-80 snap-center group">
-                                            <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 w-5 h-5 bg-white border-4 border-primary-500 rounded-full z-10 shadow transition-transform group-hover:scale-125"></div>
-                                            <div className="absolute -top-[70px] left-1/2 transform -translate-x-1/2 bg-secondary-900 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md z-20">
-                                                {item.year}
-                                            </div>
-                                            <div className="bg-white p-6 rounded-2xl border border-secondary-100 shadow-sm group-hover:shadow-xl group-hover:border-primary-300 transition-all h-full flex flex-col">
-                                                <div className="flex items-center gap-4 mb-4">
-                                                    <div className={`w-12 h-12 ${item.mood_color || 'bg-primary-100'} rounded-xl flex items-center justify-center text-2xl flex-shrink-0 overflow-hidden`}>
+                                        <div key={item.id} className="group relative">
+                                            {/* Luxurious Card Effect */}
+                                            <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 to-secondary-500/5 rounded-3xl transform rotate-1 group-hover:rotate-2 transition-transform duration-500"></div>
+                                            <div className="absolute inset-0 bg-white rounded-3xl shadow-sm border border-secondary-100 group-hover:shadow-2xl group-hover:border-primary-200 transition-all duration-500"></div>
+
+                                            <div className="relative p-8 flex flex-col items-center text-center h-full">
+                                                {/* Year Badge - Floating 'Mewah' Style */}
+                                                <div className="absolute -top-4 bg-gradient-to-r from-secondary-900 to-primary-900 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg tracking-widest border border-white/20">
+                                                    {item.year}
+                                                </div>
+
+                                                {/* Image - Luxurious Size */}
+                                                <div className="mt-8 mb-6 relative">
+                                                    <div className="absolute inset-0 bg-primary-200 rounded-full blur-xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                                                    <div className={`w-32 h-32 ${item.mood_color || 'bg-white'} rounded-full p-2 border-4 border-white shadow-xl flex items-center justify-center text-5xl relative z-10 group-hover:scale-105 transition-transform duration-500`}>
                                                         {imgSrc ? (
-                                                            <img src={imgSrc} alt={item.title?.[lang]} className="w-full h-full object-cover" />
+                                                            <img src={imgSrc} alt={item.title?.[lang]} className="w-full h-full object-cover rounded-full" />
                                                         ) : (
                                                             <span>{item.image || '🏆'}</span>
                                                         )}
                                                     </div>
-                                                    <h3 className="text-lg font-bold text-secondary-900 leading-tight group-hover:text-primary-600 transition-colors line-clamp-2">
-                                                        {item.title?.[lang] || item.title?.en}
-                                                    </h3>
                                                 </div>
-                                                <p className="text-secondary-600 text-sm leading-relaxed mb-4 flex-grow line-clamp-4">
+
+                                                {/* Content */}
+                                                <h3 className="text-2xl font-display font-bold text-secondary-900 mb-3 group-hover:text-primary-700 transition-colors">
+                                                    {item.title?.[lang] || item.title?.en}
+                                                </h3>
+                                                <div className="w-12 h-1 bg-yellow-400 rounded-full mb-4"></div>
+                                                <p className="text-secondary-600 text-base leading-relaxed line-clamp-4">
                                                     {item.description?.[lang] || item.description?.en}
                                                 </p>
                                             </div>
                                         </div>
                                     );
                                 })}
-                            </div>
-                        )}
-                        {achievements && achievements.length > 3 && (
-                            <div className="hidden md:flex justify-end mt-4 text-xs text-secondary-400 gap-2 items-center">
-                                <span>{t.achievements.scroll}</span>
-                                <svg className="w-4 h-4 animate-bounce-x" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                </svg>
                             </div>
                         )}
                     </div>
@@ -476,7 +478,7 @@ export default function Home({ featuredProjects, latestNewsletters, events, achi
                                         <div className="aspect-[4/3] bg-secondary-100 overflow-hidden">
                                             {featuredProjects[0].image ? (
                                                 <img
-                                                    src={featuredProjects[0].image.startsWith('http') || featuredProjects[0].image.startsWith('/') ? featuredProjects[0].image : `/storage/${featuredProjects[0].image}`}
+                                                    src={getImageSource(featuredProjects[0].image)}
                                                     alt={featuredProjects[0].title}
                                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                                 />
@@ -514,7 +516,7 @@ export default function Home({ featuredProjects, latestNewsletters, events, achi
                                             <div className="sm:w-48 aspect-video sm:aspect-square bg-secondary-100 overflow-hidden flex-shrink-0">
                                                 {project.image ? (
                                                     <img
-                                                        src={project.image.startsWith('http') || project.image.startsWith('/') ? project.image : `/storage/${project.image}`}
+                                                        src={getImageSource(project.image)}
                                                         alt={project.title}
                                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                                     />
@@ -576,7 +578,7 @@ export default function Home({ featuredProjects, latestNewsletters, events, achi
                                         <div className="aspect-[4/3] bg-secondary-100 overflow-hidden">
                                             {latestNewsletters[0].image ? (
                                                 <img
-                                                    src={latestNewsletters[0].image.startsWith('http') || latestNewsletters[0].image.startsWith('/') ? latestNewsletters[0].image : `/storage/${latestNewsletters[0].image}`}
+                                                    src={getImageSource(latestNewsletters[0].image)}
                                                     alt={latestNewsletters[0].title}
                                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                                 />
@@ -614,7 +616,7 @@ export default function Home({ featuredProjects, latestNewsletters, events, achi
                                             <div className="sm:w-48 aspect-video sm:aspect-square bg-secondary-100 overflow-hidden flex-shrink-0">
                                                 {article.image ? (
                                                     <img
-                                                        src={article.image.startsWith('http') || article.image.startsWith('/') ? article.image : `/storage/${article.image}`}
+                                                        src={getImageSource(article.image)}
                                                         alt={article.title}
                                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                                     />
@@ -751,7 +753,7 @@ export default function Home({ featuredProjects, latestNewsletters, events, achi
                                         <div className="aspect-[4/3] bg-secondary-100 overflow-hidden relative">
                                             {events[0].banner ? (
                                                 <img
-                                                    src={events[0].banner.startsWith('http') || events[0].banner.startsWith('/') ? events[0].banner : `/storage/${events[0].banner}`}
+                                                    src={getImageSource(events[0].banner)}
                                                     alt={events[0].title}
                                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                                 />
@@ -793,7 +795,7 @@ export default function Home({ featuredProjects, latestNewsletters, events, achi
                                             <div className="sm:w-48 aspect-video sm:aspect-square bg-secondary-100 overflow-hidden flex-shrink-0 relative">
                                                 {event.banner ? (
                                                     <img
-                                                        src={event.banner.startsWith('http') || event.banner.startsWith('/') ? event.banner : `/storage/${event.banner}`}
+                                                        src={getImageSource(event.banner)}
                                                         alt={event.title}
                                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                                     />
