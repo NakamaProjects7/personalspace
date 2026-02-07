@@ -58,19 +58,30 @@ class SubscriberController extends Controller
     /**
      * Verify Cloudflare Turnstile response
      */
-    private function verifyTurnstile($response)
+    private function verifyTurnstile($token)
     {
-        if (!$response) {
+        $secretKey = config('services.turnstile.secret_key');
+
+        if (!$token) {
             return false;
         }
 
-        $secretKey = config('services.turnstile.secret_key');
-
-        $verifyResponse = Http::post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
+        $response = Http::asForm()->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
             'secret' => $secretKey,
-            'response' => $response,
-        ])->json();
+            'response' => $token,
+            'remoteip' => request()->ip(),
+        ]);
 
-        return $verifyResponse['success'] ?? false;
+        $result = $response->json();
+
+        if (!($result['success'] ?? false)) {
+            \Log::error('Turnstile Subscription Verification Failed', [
+                'success' => $result['success'] ?? false,
+                'error-codes' => $result['error-codes'] ?? [],
+            ]);
+            return false;
+        }
+
+        return true;
     }
 }
