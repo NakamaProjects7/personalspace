@@ -53,3 +53,60 @@
         font-family: var(--font-display);
     }
 }
+
+/* Minimalist Typewriter Loader */
+.loader-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.loader-text {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 2.5rem;
+    color: #00522a;
+    /* Secondary 500 */
+    overflow: hidden;
+    /* Ensures the content is not revealed until the animation */
+    border-right: .15em solid #f9bf05;
+    /* The typwriter cursor (Primary 500) */
+    white-space: nowrap;
+    /* Keeps the content on a single line */
+    margin: 0 auto;
+    /* Gives that scrolling effect as the typing happens */
+    animation:
+        typing 1.5s steps(15, end),
+        blink-caret .75s step-end infinite;
+}
+
+@media (max-width: 640px) {
+    .loader-text {
+        font-size: 1.5rem;
+    }
+}
+
+/* The typing effect */
+@keyframes typing {
+    from {
+        width: 0
+    }
+
+    to {
+        width: 100%
+    }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+
+    from,
+    to {
+        border-color: transparent
+    }
+
+    50% {
+        border-color: #f9bf05;
+    }
+}

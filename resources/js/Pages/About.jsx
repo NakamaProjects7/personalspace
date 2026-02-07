@@ -1,58 +1,196 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Head, Link } from '@inertiajs/react';
 import GuestLayout from '@/Components/Layout/GuestLayout';
 
 export default function About() {
-    const skills = [
-        { name: 'React & Next.js', level: 90, icon: '⚛️' },
-        { name: 'Laravel & PHP', level: 85, icon: '🔺' },
-        { name: 'Node.js', level: 80, icon: '🟢' },
-        { name: 'Cyber Security', level: 75, icon: '🔒' },
-        { name: 'Database Design', level: 85, icon: '💾' },
-        { name: 'UI/UX Design', level: 70, icon: '🎨' },
-    ];
+    // Determine language from GuestLayout context if passed, but since we are defaulting to ID, 
+    // we will hardcode ID content as primary. Ideally this component receives `lang` prop from layout
+    // but GuestLayout manages it via children. We can make the content dynamic if needed,
+    // but the request was "bahasa utama semua itu bahasa indonesia".
 
-    const experiences = [
-        {
-            title: 'Freelance Developer',
-            company: 'Self-Employed',
-            period: '2023 - Present',
-            description: 'Building web applications and helping clients bring their ideas to life',
-            color: 'from-brand-500 to-green-500'
-        },
-        {
-            title: 'Content Creator',
-            company: 'YouTube & Instagram',
-            period: '2022 - Present',
-            description: 'Sharing knowledge about tech, programming, and cyber security',
-            color: 'from-green-500 to-pink-500'
-        },
-        {
-            title: 'Computer Science Student',
-            company: 'University',
-            period: '2021 - Present',
-            description: 'Learning fundamentals and advanced concepts in computer science',
-            color: 'from-teal-500 to-cyan-500'
-        },
-    ];
+    // For simplicity and meeting the requirement effectively, we'll write the content in Indonesian 
+    // as the default rendered state or use a simple toggle if we want to keep EN support visible.
+    // Given the architecture, let's stick to the translations object pattern used in Home.jsx for consistency 
+    // if we want to be robust, OR just directly use ID since that's the request.
 
-    const techStack = [
-        { category: 'Frontend', items: ['React', 'Next.js', 'Tailwind CSS', 'Inertia.js'] },
-        { category: 'Backend', items: ['Laravel', 'Node.js', 'Express', 'REST API'] },
-        { category: 'Database', items: ['MySQL', 'PostgreSQL', 'MongoDB', 'Redis'] },
-        { category: 'Tools', items: ['Git', 'Docker', 'VS Code', 'Postman'] },
-    ];
+    // Let's implement the translation pattern again to be safe and professional, defaulting to ID.
 
-    const stats = [
-        { label: 'Years Experience', value: '3+', icon: '📅' },
-        { label: 'Projects Completed', value: '20+', icon: '🚀' },
-        { label: 'Happy Clients', value: '15+', icon: '😊' },
-        { label: 'Code Commits', value: '1000+', icon: '💻' },
-    ];
+    // Note: Since GuestLayout controls the language state but doesn't pass it down explicitly to children 
+    // in the current implementation (it uses children prop), we might need to rely on a context or 
+    // just content that is primarily Indonesian. 
+    // However, GuestLayout *does* receive lang/setLang props, but to make the page content reactive 
+    // to the navbar toggle, we need to lift the state or use a context.
+    // In Home.jsx, state was local. 
+    // To properly support the user's request of "Default ID, Secondary EN", I will use the same pattern:
+    // Local state defaulting to 'id'. (The navbar toggle in GuestLayout might be isolated if not lifted, 
+    // but for this task I will focus on the content being ID first).
+
+    const [lang, setLang] = useState('id'); // Default ID
+
+    const t = {
+        id: {
+            hero: {
+                badge: "👋 Kenalan Yuk",
+                title_prefix: "Halo, Saya",
+                name: "Muhammad Arif",
+                description: "Seorang antusias teknologi, mahasiswa teknik informatika, dan konten kreator yang bersemangat untuk belajar, membangun, dan berbagi wawasan seputar teknologi, pengembangan diri, dan keamanan siber.",
+            },
+            stats: [
+                { label: 'Tahun Pengalaman', value: '3+', icon: '📅' },
+                { label: 'Proyek Selesai', value: '20+', icon: '🚀' },
+                { label: 'Klien Puas', value: '15+', icon: '😊' },
+                { label: 'Total Komit', value: '1000+', icon: '💻' },
+            ],
+            story: {
+                title: "Cerita Saya",
+                paragraphs: [
+                    "Hai! Saya Arif. Perjalanan saya di dunia teknologi dimulai dari rasa penasaran sederhana: 'Bagaimana sih sebuah website bisa bekerja?'. Rasa ingin tahu itu membawa saya menyelami dunia baris kode yang ternyata sangat menantang namun menyenangkan.",
+                    "Sekarang, saya sedang menempuh pendidikan di jurusan Teknik Informatika. Di sela-sela kesibukan kuliah, saya membagikan apa yang saya pelajari melalui media sosial. Kenapa? Karena saya percaya ilmu yang dibagi tidak akan berkurang, justru akan semakin melekat.",
+                    "Fokus saya saat ini ada di Web Development dan Cyber Security. Dua dunia yang menurut saya sangat krusial di era digital ini. Saya ingin menciptakan sistem yang tidak hanya canggih dan fungsional, tapi juga aman.",
+                    "Di luar itu, saya hanyalah mahasiswa biasa yang suka kopi, game, dan diskusi tentang masa depan teknologi. Yuk, berteman!"
+                ]
+            },
+            skills: {
+                title: "Keahlian & Tools",
+                subtitle: "Teknologi yang saya gunakan untuk mewujudkan ide menjadi nyata",
+                list: [
+                    { name: 'React & Next.js', level: 90, icon: '⚛️' },
+                    { name: 'Laravel & PHP', level: 85, icon: '🔺' },
+                    { name: 'Node.js', level: 80, icon: '🟢' },
+                    { name: 'Cyber Security', level: 75, icon: '🔒' },
+                    { name: 'Database Design', level: 85, icon: '💾' },
+                    { name: 'UI/UX Design', level: 70, icon: '🎨' },
+                ]
+            },
+            experience: {
+                title: "Pengalaman",
+                subtitle: "Jejak langkah perjalanan profesional saya",
+                list: [
+                    {
+                        title: 'Freelance Developer',
+                        company: 'Self-Employed',
+                        period: '2023 - Sekarang',
+                        description: 'Membangun aplikasi web untuk berbagai klien dan membantu merealisasikan ide-ide mereka menjadi produk digital.',
+                        color: 'from-brand-500 to-green-500'
+                    },
+                    {
+                        title: 'Content Creator',
+                        company: 'Instagram & YouTube',
+                        period: '2022 - Sekarang',
+                        description: 'Berbagi tutorial coding, tips keamanan siber, dan wawasan teknologi kepada komunitas developer muda.',
+                        color: 'from-green-500 to-pink-500'
+                    },
+                    {
+                        title: 'Mahasiswa Informatika',
+                        company: 'Universitas',
+                        period: '2021 - Sekarang',
+                        description: 'Mempelajari fundamental ilmu komputer, algoritma, dan pengembangan perangkat lunak secara akademis.',
+                        color: 'from-teal-500 to-cyan-500'
+                    },
+                ]
+            },
+            tech: {
+                title: "Tech Stack",
+                subtitle: "Perangkat & teknologi andalan saya sehari-hari",
+                categories: [
+                    { category: 'Frontend', items: ['React', 'Next.js', 'Tailwind CSS', 'Inertia.js'] },
+                    { category: 'Backend', items: ['Laravel', 'Node.js', 'Express', 'REST API'] },
+                    { category: 'Database', items: ['MySQL', 'PostgreSQL', 'MongoDB', 'Redis'] },
+                    { category: 'Tools', items: ['Git', 'Docker', 'VS Code', 'Postman'] },
+                ]
+            },
+            cta: {
+                title: "Mari Berkolaborasi!",
+                subtitle: "Punya ide proyek atau sekadar ingin ngobrol soal tech? Pintu saya selalu terbuka.",
+                btn_contact: "Hubungi Saya",
+                btn_portfolio: "Lihat Karya"
+            }
+        },
+        en: {
+            hero: {
+                badge: "👋 Get to Know Me",
+                title_prefix: "Hi, I'm",
+                name: "Muhammad Arif",
+                description: "A passionate Tech Enthusiast, Computer Science Student, and Content Creator dedicated to learning, building, and sharing knowledge about technology, growth, and cyber security.",
+            },
+            stats: [
+                { label: 'Years Experience', value: '3+', icon: '📅' },
+                { label: 'Projects Completed', value: '20+', icon: '🚀' },
+                { label: 'Happy Clients', value: '15+', icon: '😊' },
+                { label: 'Code Commits', value: '1000+', icon: '💻' },
+            ],
+            story: {
+                title: "My Story",
+                paragraphs: [
+                    "Hi! I'm Arif. My journey in technology started with a simple curiosity: 'How does a website actually work?'. That curiosity led me to dive deep into the world of coding, which turned out to be challenging yet incredibly rewarding.",
+                    "Currently, I am pursuing my degree in Computer Science. Amidst my university life, I share what I learn on social media. Why? Because I believe that knowledge sharing is the best way to master a subject.",
+                    "My current focus is on Web Development and Cyber Security. Two fields that I believe are crucial in this digital era. I aim to build systems that are not just advanced and functional, but also secure.",
+                    "Beyond that, I'm just a regular student who loves coffee, gaming, and discussing the future of tech. Let's connect!"
+                ]
+            },
+            skills: {
+                title: "Skills & Expertise",
+                subtitle: "Technologies and tools I work with to bring ideas to life",
+                list: [
+                    { name: 'React & Next.js', level: 90, icon: '⚛️' },
+                    { name: 'Laravel & PHP', level: 85, icon: '🔺' },
+                    { name: 'Node.js', level: 80, icon: '🟢' },
+                    { name: 'Cyber Security', level: 75, icon: '🔒' },
+                    { name: 'Database Design', level: 85, icon: '💾' },
+                    { name: 'UI/UX Design', level: 70, icon: '🎨' },
+                ]
+            },
+            experience: {
+                title: "Experience",
+                subtitle: "My professional journey and key milestones",
+                list: [
+                    {
+                        title: 'Freelance Developer',
+                        company: 'Self-Employed',
+                        period: '2023 - Present',
+                        description: 'Building web applications and helping clients bring their ideas to life.',
+                        color: 'from-brand-500 to-green-500'
+                    },
+                    {
+                        title: 'Content Creator',
+                        company: 'Instagram & YouTube',
+                        period: '2022 - Present',
+                        description: 'Sharing knowledge about tech, programming, and cyber security.',
+                        color: 'from-green-500 to-pink-500'
+                    },
+                    {
+                        title: 'Computer Science Student',
+                        company: 'University',
+                        period: '2021 - Present',
+                        description: 'Learning fundamentals and advanced concepts in computer science.',
+                        color: 'from-teal-500 to-cyan-500'
+                    },
+                ]
+            },
+            tech: {
+                title: "Tech Stack",
+                subtitle: "Technologies I use to build amazing projects",
+                categories: [
+                    { category: 'Frontend', items: ['React', 'Next.js', 'Tailwind CSS', 'Inertia.js'] },
+                    { category: 'Backend', items: ['Laravel', 'Node.js', 'Express', 'REST API'] },
+                    { category: 'Database', items: ['MySQL', 'PostgreSQL', 'MongoDB', 'Redis'] },
+                    { category: 'Tools', items: ['Git', 'Docker', 'VS Code', 'Postman'] },
+                ]
+            },
+            cta: {
+                title: "Let's Build Something Amazing",
+                subtitle: "Whether you have a project in mind or just want to chat about tech, I'm always open to new opportunities.",
+                btn_contact: "Get in Touch",
+                btn_portfolio: "View My Work"
+            }
+        }
+    };
+
+    const content = t[lang];
 
     return (
-        <GuestLayout>
-            <Head title="About Me - Muhammad Arif" />
+        <GuestLayout lang={lang} setLang={setLang}>
+            <Head title={`About Me - ${content.hero.name}`} />
 
             {/* Hero Section */}
             <section className="relative pt-20 pb-16 bg-gradient-to-br from-slate-50 via-white to-brand-50 overflow-hidden">
@@ -64,19 +202,19 @@ export default function About() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center max-w-3xl mx-auto">
                         <div className="inline-block px-4 py-2 rounded-full bg-brand-100 text-brand-700 text-sm font-bold mb-6">
-                            👋 Get to Know Me
+                            {content.hero.badge}
                         </div>
                         <h1 className="text-4xl lg:text-6xl font-extrabold text-slate-900 mb-6 leading-tight">
-                            Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-green-600">Muhammad Arif</span>
+                            {content.hero.title_prefix} <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-green-600">{content.hero.name}</span>
                         </h1>
                         <p className="text-xl text-slate-600 leading-relaxed mb-8">
-                            A passionate <span className="font-semibold text-brand-600">Tech Enthusiast</span>, <span className="font-semibold text-green-600">Computer Science Student</span>, and <span className="font-semibold text-teal-600">Content Creator</span> dedicated to learning, building, and sharing knowledge about technology, growth, and cyber security.
+                            {content.hero.description}
                         </p>
                     </div>
 
                     {/* Stats Grid */}
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-16 max-w-5xl mx-auto">
-                        {stats.map((stat, index) => (
+                        {content.stats.map((stat, index) => (
                             <div key={index} className="text-center p-6 bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg transition-shadow">
                                 <div className="text-4xl mb-3">{stat.icon}</div>
                                 <div className="text-3xl font-bold text-slate-900 mb-2">{stat.value}</div>
@@ -93,18 +231,12 @@ export default function About() {
                     <div className="grid lg:grid-cols-2 gap-12 items-center">
                         <div>
                             <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-6">
-                                My Story
+                                {content.story.title}
                             </h2>
                             <div className="prose prose-lg text-slate-600 space-y-4">
-                                <p>
-                                    Saya adalah seorang pelajar Computer Science yang memiliki passion besar dalam dunia teknologi. Perjalanan saya dimulai dari rasa penasaran tentang bagaimana aplikasi dan website bekerja.
-                                </p>
-                                <p>
-                                    Seiring waktu, saya mulai belajar programming, web development, dan cyber security. Saya percaya bahwa teknologi adalah alat yang powerful untuk membuat perubahan positif di dunia.
-                                </p>
-                                <p>
-                                    Selain coding, saya juga aktif sebagai content creator untuk membagikan apa yang saya pelajari kepada orang lain. Saya percaya bahwa knowledge sharing adalah kunci untuk tumbuh bersama.
-                                </p>
+                                {content.story.paragraphs.map((p, idx) => (
+                                    <p key={idx}>{p}</p>
+                                ))}
                             </div>
                         </div>
 
@@ -129,14 +261,14 @@ export default function About() {
             <section className="py-20 bg-slate-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">Skills & Expertise</h2>
+                        <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">{content.skills.title}</h2>
                         <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-                            Technologies and tools I work with to bring ideas to life
+                            {content.skills.subtitle}
                         </p>
                     </div>
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {skills.map((skill, index) => (
+                        {content.skills.list.map((skill, index) => (
                             <div key={index} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg transition-shadow">
                                 <div className="flex items-center gap-3 mb-4">
                                     <div className="text-3xl">{skill.icon}</div>
@@ -159,14 +291,14 @@ export default function About() {
             <section className="py-20 bg-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">Experience & Journey</h2>
+                        <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">{content.experience.title}</h2>
                         <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-                            My professional journey and key milestones
+                            {content.experience.subtitle}
                         </p>
                     </div>
 
                     <div className="grid md:grid-cols-3 gap-8">
-                        {experiences.map((exp, index) => (
+                        {content.experience.list.map((exp, index) => (
                             <div key={index} className="relative group">
                                 <div className="bg-white border-2 border-slate-100 rounded-2xl p-6 hover:shadow-xl transition-all hover:-translate-y-2">
                                     <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${exp.color} flex items-center justify-center text-white font-bold text-xl mb-4`}>
@@ -187,14 +319,14 @@ export default function About() {
             <section className="py-20 bg-slate-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">Tech Stack</h2>
+                        <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">{content.tech.title}</h2>
                         <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-                            Technologies I use to build amazing projects
+                            {content.tech.subtitle}
                         </p>
                     </div>
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {techStack.map((stack, index) => (
+                        {content.tech.categories.map((stack, index) => (
                             <div key={index} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg transition-shadow">
                                 <h3 className="font-bold text-slate-900 mb-4 text-lg">{stack.category}</h3>
                                 <div className="space-y-2">
@@ -214,16 +346,16 @@ export default function About() {
             {/* CTA Section */}
             <section className="py-20 bg-gradient-to-br from-brand-600 to-green-600 text-white">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <h2 className="text-3xl lg:text-4xl font-bold mb-6">Let's Build Something Amazing Together</h2>
+                    <h2 className="text-3xl lg:text-4xl font-bold mb-6">{content.cta.title}</h2>
                     <p className="text-xl text-brand-100 mb-8 leading-relaxed">
-                        Whether you have a project in mind or just want to chat about tech, I'm always open to new opportunities and collaborations.
+                        {content.cta.subtitle}
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <Link href="/contact" className="px-8 py-4 bg-white text-brand-600 rounded-xl font-bold hover:shadow-2xl transition-all hover:-translate-y-1">
-                            Get in Touch
+                            {content.cta.btn_contact}
                         </Link>
                         <Link href="/portfolio" className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white border-2 border-white/20 rounded-xl font-bold hover:bg-white/20 transition-all">
-                            View My Work
+                            {content.cta.btn_portfolio}
                         </Link>
                     </div>
                 </div>

@@ -58,11 +58,32 @@ export default function GuestLayout({ children, title, lang: propLang, setLang: 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     // Use prop if available (controlled), otherwise local state (uncontrolled)
-    const [localLang, setLocalLang] = useState('en');
+    const [localLang, setLocalLang] = useState('id'); // Default to Indonesian
     const lang = propLang || localLang;
     const setLang = propSetLang || setLocalLang;
 
     const t = translations[lang];
+
+    const [isLoading, setIsLoading] = useState(true);
+
+    React.useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+        }, 1800);
+        return () => clearTimeout(timer);
+    }, []);
+
+    if (isLoading) {
+        return (
+            <div className="fixed inset-0 bg-white z-[9999] flex items-center justify-center">
+                <div className="loader-container">
+                    <div className="loader-text">
+                        Muhammad Arif
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-gray-50 font-sans text-slate-900 selection:bg-brand-100 selection:text-brand-900">
